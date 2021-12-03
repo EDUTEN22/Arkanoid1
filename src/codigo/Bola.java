@@ -21,12 +21,12 @@ public class Bola extends GOval{
 
 	public void muevete(Arkanoid1 ark){
 		//rebote con el suelo y rebote con el techo
-		if (getY() > ark.getHeight() || getY() < 0){
+		if (getY() > ark.getHeight() || getY() < 10){
 			dy = dy * -1;
 		}
 
 		//rebote con la pared derecha y rebote con la pared izquierda
-		if (getX() > ark.getWidth() || getX() < 0){
+		if (getX()+getWidth() > ark.ANCHO_PANTALLA - 30 || getX() < 10){
 			dx = dx * -1;
 		}
 
@@ -56,10 +56,15 @@ public class Bola extends GOval{
 			noHaChocado = false;
 		}else if (auxiliar == null){ //si vale null es que no había nada ahi
 
-		}else { //suponemos que es un ladrillo
-			ark.remove(auxiliar);
-			dy = dy * -1;
-			dx = dx * -1;
+		}else if (auxiliar instanceof Ladrillo3){ //si es un ladrillo
+			if (auxiliar.getX() + getWidth() >= posx || auxiliar.getX() <= posx){
+				dx = dx * -1;
+			}
+			if (auxiliar.getY() + getHeight() >= posy || auxiliar.getY() <= posy){
+				dy = dy * -1;
+			}
+			ark.miMarcador.incrementaMarcador(1); 
+			ark.remove(auxiliar);//borro el ladrillo
 			noHaChocado = false;
 		}
 
